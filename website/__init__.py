@@ -12,8 +12,11 @@ DB_NAME = "database.db"
 
 def create_app():
     app = Flask(__name__)
+    
+    # Load from environment
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')  
+    
     db.init_app(app)
 
     from .views import views
@@ -22,7 +25,6 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
 
     from .models import User
-
     create_database(app)
 
     login_manager = LoginManager()
